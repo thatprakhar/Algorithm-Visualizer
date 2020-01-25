@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <style></style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var canvas = document.getElementById("canvas");
+        var canvasHeight = 500;
+        var canvasWidth = 1000;
+        var ctx = canvas.getContext("2d");
+        var width = 20;
+        var height = 50;
+        var xPos = 500;
+        var yPos = 500 - height;
+
+        function getRandomColor() {
+          var letters = "0123456789ABCDEF";
+          var color = "#";
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+        }
+
+        class rectangles {
+          constructor(xPos, height, ctx, color) {
+            this.xPos = xPos;
+            this.height = height;
+            this.width = 30;
+            this.yPos = 500 - height;
+            this.ctx = ctx;
+            /*this.gVal = Math.floor(this.height * 0.51);
+            this.hexVal = parseInt(this.gVal, 10);*/
+            this.color = color;
+          }
+
+          draw() {
+            this.ctx.beginPath();
+            this.ctx.fillStyle = this.color;
+            this.ctx.fillRect(this.xPos, this.yPos, this.width, this.height);
+            this.ctx.stroke();
+          }
+
+          getHeight() {
+            return this.height;
+          }
+        }
+
+        var rects = [];
+        var num = 20;
+        var pos = 300;
+        for (var i = 0; i < num; i++) {
+          rects[i] = new rectangles(
+            pos,
+            Math.floor(Math.random() * 300),
+            ctx,
+            getRandomColor()
+          );
+          rects[i].draw();
+          pos += 30;
+        }
+        function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        var p = document.getElementById("p");
+        document.getElementById("p").innerHTML = rects;
+
+        setInterval(function() {
+          for (var i = 0; i < num - 1; i++) {
+            for (var j = 0; j < num - 1 - i; j++) {
+              if (rects[j].height > rects[j + 1].height) {
+                var temp = new rectangles(
+                  rects[j].xPos,
+                  rects[j].height,
+                  rects[j].ctx,
+                  rects[j].color
+                );
+                rects[j] = new rectangles(
+                  rects[j + 1].xPos,
+                  rects[j + 1].height,
+                  rects[j + 1].ctx,
+                  rects[j + 1].color
+                );
+                rects[j + 1] = temp;
+                document.getElementById("p").innerHTML = rects[j];
+                sleep(100);
+              }
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, 1000, 500);
+              for (var k = 0; k < num; k++) {
+                rects[k].draw();
+              }
+            }
+          }
+        }, 60);
+      });
+    </script>
+  </head>
+  <body>
+    <canvas id="canvas" width="1000" height="500"> </canvas>
+    <p id="p">Text</p>
+  </body>
+</html>
