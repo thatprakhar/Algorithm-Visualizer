@@ -68,20 +68,15 @@
           for (var i = 0; i < num - 1; i++) {
             for (var j = 0; j < num - 1 - i; j++) {
               if (rects[j].height > rects[j + 1].height) {
-                var temp = new rectangles(
-                  rects[j].xPos,
-                  rects[j].height,
-                  rects[j].ctx,
-                  rects[j].color
+                console.log(
+                  "Swapped " + rects[j].height + " with " + rects[j + 1].height
                 );
-                rects[j] = new rectangles(
-                  rects[j + 1].xPos,
-                  rects[j + 1].height,
-                  rects[j + 1].ctx,
-                  rects[j + 1].color
-                );
-                rects[j + 1] = temp;
-                document.getElementById("p").innerHTML = rects[j];
+                document.getElementById("p").innerHTML =
+                  "Swapped " + rects[j].height + " with " + rects[j + 1].height;
+                var temp = rects[j].xPos;
+                rects[j].xPos = rects[j + 1].xPos;
+                rects[j + 1].xPos = temp;
+
                 sleep(100);
               }
               ctx.fillStyle = "white";
