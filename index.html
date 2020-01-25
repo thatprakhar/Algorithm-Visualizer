@@ -39,14 +39,10 @@
             this.ctx.fillRect(this.xPos, this.yPos, this.width, this.height);
             this.ctx.stroke();
           }
-
-          getHeight() {
-            return this.height;
-          }
         }
 
         var rects = [];
-        var num = 20;
+        var num = 10;
         var pos = 300;
         for (var i = 0; i < num; i++) {
           rects[i] = new rectangles(
@@ -58,9 +54,14 @@
           rects[i].draw();
           pos += 30;
         }
-        function sleep(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
+        function pausecomp(millis) {
+          var date = new Date();
+          var curDate = null;
+          do {
+            curDate = new Date();
+          } while (curDate - date < millis);
         }
+
         var p = document.getElementById("p");
         document.getElementById("p").innerHTML = rects;
 
@@ -73,25 +74,32 @@
                 );
                 document.getElementById("p").innerHTML =
                   "Swapped " + rects[j].height + " with " + rects[j + 1].height;
-                var temp = rects[j].xPos;
+                /*var temp = rects[j].xPos;
                 rects[j].xPos = rects[j + 1].xPos;
-                rects[j + 1].xPos = temp;
-
-                sleep(100);
-              }
-              ctx.fillStyle = "white";
-              ctx.fillRect(0, 0, 1000, 500);
-              for (var k = 0; k < num; k++) {
-                rects[k].draw();
+                rects[j + 1].xPos = temp;*/
+                var c = rects[j].color;
+                rects[j].color = rects[j + 1].color;
+                rects[j + 1].color = c;
+                var y = rects[j].height;
+                rects[j].height = rects[j + 1].height;
+                rects[j + 1].height = y;
+                rects[j].yPos = 500 - rects[j].height;
+                rects[j + 1].yPos = 500 - rects[j + 1].height;
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, 1000, 500);
+                for (var k = 0; k < num; k++) {
+                  rects[k].draw();
+                }
               }
             }
           }
-        }, 60);
+        }, 600);
       });
     </script>
   </head>
   <body>
     <canvas id="canvas" width="1000" height="500"> </canvas>
     <p id="p">Text</p>
+    <button onclick="bubbleSort()">Bubble Sort</button>
   </body>
 </html>
