@@ -2,6 +2,34 @@
   <head>
     <style></style>
     <script>
+      var num = 30;
+      var rects = [];
+      class rectangles {
+        constructor(xPos, height, ctx, color) {
+          this.xPos = xPos;
+          this.height = height;
+          this.width = 16;
+          this.yPos = 500 - height;
+          this.ctx = ctx;
+
+          this.color = color;
+        }
+        draw() {
+          this.ctx.beginPath();
+          this.ctx.fillStyle = this.color;
+          this.ctx.fillRect(this.xPos, this.yPos, this.width, this.height);
+          this.ctx.stroke();
+        }
+      }
+      function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
       document.addEventListener("DOMContentLoaded", function() {
         var canvas = document.getElementById("canvas");
         var canvasHeight = 500;
@@ -12,38 +40,7 @@
         var xPos = 500;
         var yPos = 500 - height;
 
-        function getRandomColor() {
-          var letters = "0123456789ABCDEF";
-          var color = "#";
-          for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-          }
-          return color;
-        }
-
-        class rectangles {
-          constructor(xPos, height, ctx, color) {
-            this.xPos = xPos;
-            this.height = height;
-            this.width = 30;
-            this.yPos = 500 - height;
-            this.ctx = ctx;
-            /*this.gVal = Math.floor(this.height * 0.51);
-            this.hexVal = parseInt(this.gVal, 10);*/
-            this.color = color;
-          }
-
-          draw() {
-            this.ctx.beginPath();
-            this.ctx.fillStyle = this.color;
-            this.ctx.fillRect(this.xPos, this.yPos, this.width, this.height);
-            this.ctx.stroke();
-          }
-        }
-
-        var rects = [];
-        var num = 10;
-        var pos = 300;
+        var pos = 0;
         for (var i = 0; i < num; i++) {
           rects[i] = new rectangles(
             pos,
@@ -52,54 +49,56 @@
             getRandomColor()
           );
           rects[i].draw();
-          pos += 30;
-        }
-        function pausecomp(millis) {
-          var date = new Date();
-          var curDate = null;
-          do {
-            curDate = new Date();
-          } while (curDate - date < millis);
+          pos += 16;
         }
 
         var p = document.getElementById("p");
-        document.getElementById("p").innerHTML = rects;
+      });
+      function pausecomp(millis) {
+        var date = new Date();
+        var curDate = null;
+        do {
+          curDate = new Date();
+        } while (curDate - date < millis);
+      }
 
-        setInterval(function() {
-          for (var i = 0; i < num - 1; i++) {
-            for (var j = 0; j < num - 1 - i; j++) {
-              if (rects[j].height > rects[j + 1].height) {
-                console.log(
-                  "Swapped " + rects[j].height + " with " + rects[j + 1].height
-                );
-                document.getElementById("p").innerHTML =
-                  "Swapped " + rects[j].height + " with " + rects[j + 1].height;
-                /*var temp = rects[j].xPos;
-                rects[j].xPos = rects[j + 1].xPos;
-                rects[j + 1].xPos = temp;*/
-                var c = rects[j].color;
-                rects[j].color = rects[j + 1].color;
-                rects[j + 1].color = c;
-                var y = rects[j].height;
-                rects[j].height = rects[j + 1].height;
-                rects[j + 1].height = y;
-                rects[j].yPos = 500 - rects[j].height;
-                rects[j + 1].yPos = 500 - rects[j + 1].height;
-                ctx.fillStyle = "white";
-                ctx.fillRect(0, 0, 1000, 500);
-                for (var k = 0; k < num; k++) {
-                  rects[k].draw();
-                }
+      function bubbleSort() {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        for (var i = 0; i < num - 1; i++) {
+          for (var j = 0; j < num - 1 - i; j++) {
+            if (rects[j].height > rects[j + 1].height) {
+              console.log(
+                "Swapped " + rects[j].height + " with " + rects[j + 1].height
+              );
+
+              var c = rects[j].color;
+              rects[j].color = rects[j + 1].color;
+              rects[j + 1].color = c;
+              var y = rects[j].height;
+              rects[j].height = rects[j + 1].height;
+              rects[j + 1].height = y;
+              rects[j].yPos = 500 - rects[j].height;
+              rects[j + 1].yPos = 500 - rects[j + 1].height;
+
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, 1000, 500);
+              for (var k = 0; k < num; k++) {
+                rects[k].draw();
               }
+              pausecomp(100);
+
+              document.getElementById("lol").innerHTML = i;
             }
           }
-        }, 600);
-      });
+        }
+      }
     </script>
   </head>
   <body>
     <canvas id="canvas" width="1000" height="500"> </canvas>
-    <p id="p">Text</p>
+
     <button onclick="bubbleSort()">Bubble Sort</button>
+    <button onclick="quickSort()">Quick Sort</button>
+    <p id="lol"></p>
   </body>
 </html>
