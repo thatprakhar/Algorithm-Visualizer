@@ -109,7 +109,7 @@
               }
             }
             j++;
-          }, 1);
+          }, 100);
         }
         console.log("exited successfully");
       }
@@ -138,7 +138,8 @@
         var min = 2000;
         console.log("selection sort running");
         var interval = setInterval(function() {
-          var min_index = 0;
+          var min_index = i;
+          min = rects[min_index].height;
           for (var j = i + 1; j < num; j++) {
             if (rects[j].height <= min) {
               min = rects[j].height;
@@ -168,7 +169,7 @@
             clearInterval(interval);
             i = 0;
           }
-        }, 1);
+        }, 100);
         console.log("exited finally out of selection");
       }
     </script>
