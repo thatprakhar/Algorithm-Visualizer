@@ -5,6 +5,7 @@
       var num;
       var rects = [];
       var bubbleFlag = true;
+      var sortedRect = [];
 
       class rectangles {
         constructor(xPos, height, ctx, color) {
@@ -78,15 +79,15 @@
           var ctx = document.getElementById("canvas").getContext("2d");
           var i = 0;
           var j = 0;
-          setInterval(function() {
-            if (j == num - 1) {
+          var interval = setInterval(function() {
+            if (j == num - 1 - i) {
               i++;
               j = 0;
             }
             if (i == num - 1) {
               bubbleFlag = true;
               console.log("exited out of bubble sort");
-              clearInterval();
+              clearInterval(interval);
             }
             if (rects[j].height > rects[j + 1].height) {
               console.log(
@@ -110,12 +111,71 @@
             j++;
           }, 1);
         }
+        console.log("exited successfully");
+      }
+      function selectionSort() {
+        num = document.getElementById("num").value;
+        var canvas = document.getElementById("canvas");
+        var canvasHeight = 500;
+        var canvasWidth = 1000;
+        var ctx = canvas.getContext("2d");
+        var pos = 0;
+        for (var i = 0; i < num; i++) {
+          rects[i] = new rectangles(
+            pos,
+            Math.floor(Math.random() * 500),
+            ctx,
+            getRandomColor()
+          );
+          rects[i].draw();
+          pos += 1000 / num;
+        }
+
+        var p = document.getElementById("p");
+
+        var ctx = document.getElementById("canvas").getContext("2d");
+        var i = 0;
+        var min = 2000;
+        console.log("selection sort running");
+        var interval = setInterval(function() {
+          var min_index = 0;
+          for (var j = i + 1; j < num; j++) {
+            if (rects[j].height <= min) {
+              min = rects[j].height;
+              min_index = j;
+            }
+          }
+
+          console.log(i + " = i");
+          console.log(min_index + " = min");
+          var c = rects[i].color;
+          rects[i].color = rects[min_index].color;
+          rects[min_index].color = c;
+          var y = rects[i].height;
+          rects[i].height = rects[min_index].height;
+          rects[min_index].height = y;
+          rects[i].yPos = 500 - rects[i].height;
+          rects[min_index].yPos = 500 - rects[min_index].height;
+          document.getElementById("lol").innerHTML = i;
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, 1000, 500);
+          for (var k = 0; k < num; k++) {
+            rects[k].draw();
+          }
+          i++;
+          if (i >= num) {
+            console.log("exited out of selection sort");
+            clearInterval(interval);
+            i = 0;
+          }
+        }, 1);
+        console.log("exited finally out of selection");
       }
     </script>
   </head>
   <body>
     <button onclick="bubbleSort()">Bubble Sort</button>
-    <button onclick="quickSort()">Quick Sort</button>
+    <button onclick="selectionSort()">Selection Sort</button>
     <input id="num" placeholder="enter num of elements" value="10" />
     <p id="lol"></p>
     <canvas id="canvas" width="1000" height="500"> </canvas>
