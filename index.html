@@ -2,14 +2,16 @@
   <head>
     <style></style>
     <script>
-      var num = 100;
+      var num;
       var rects = [];
+      var bubbleFlag = true;
+
       class rectangles {
         constructor(xPos, height, ctx, color) {
           this.xPos = xPos;
           this.height = height;
-          this.width = 10;
-          this.yPos = 1000 - height;
+          this.width = 1000 / num;
+          this.yPos = 500 - height;
           this.ctx = ctx;
 
           this.color = color;
@@ -31,6 +33,7 @@
       }
 
       document.addEventListener("DOMContentLoaded", function() {
+        num = document.getElementById("num").value;
         var canvas = document.getElementById("canvas");
         var canvasHeight = 500;
         var canvasWidth = 1000;
@@ -39,65 +42,82 @@
         for (var i = 0; i < num; i++) {
           rects[i] = new rectangles(
             pos,
-            Math.floor(Math.random() * 500),
+            Math.floor(Math.random() * 500) + 20,
             ctx,
             getRandomColor()
           );
           rects[i].draw();
-          pos += 10;
+          pos += 1000 / num;
         }
 
         var p = document.getElementById("p");
       });
-      function pausecomp(millis) {
-        var date = new Date();
-        var curDate = null;
-        do {
-          curDate = new Date();
-        } while (curDate - date < millis);
-      }
 
       function bubbleSort() {
-        var ctx = document.getElementById("canvas").getContext("2d");
-        var i = 0;
-        var j = 0;
-        setInterval(function() {
-          if (j == num - 1) {
-            i++;
-            j = 0;
-          }
-          if (i == num - 1) {
-            clearInterval();
-          }
-          if (rects[j].height > rects[j + 1].height) {
-            console.log(
-              "Swapped " + rects[j].height + " with " + rects[j + 1].height
+        if (bubbleFlag == true) {
+          bubbleFlag = false;
+          num = document.getElementById("num").value;
+          var canvas = document.getElementById("canvas");
+          var canvasHeight = 500;
+          var canvasWidth = 1000;
+          var ctx = canvas.getContext("2d");
+          var pos = 0;
+          for (var i = 0; i < num; i++) {
+            rects[i] = new rectangles(
+              pos,
+              Math.floor(Math.random() * 500),
+              ctx,
+              getRandomColor()
             );
-            var c = rects[j].color;
-            rects[j].color = rects[j + 1].color;
-            rects[j + 1].color = c;
-            var y = rects[j].height;
-            rects[j].height = rects[j + 1].height;
-            rects[j + 1].height = y;
-            rects[j].yPos = 1000 - rects[j].height;
-            rects[j + 1].yPos = 1000 - rects[j + 1].height;
-            document.getElementById("lol").innerHTML = i;
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, 1000, 1000);
-            for (var k = 0; k < num; k++) {
-              rects[k].draw();
-            }
+            rects[i].draw();
+            pos += 1000 / num;
           }
-          j++;
-        }, 100);
+
+          var p = document.getElementById("p");
+
+          var ctx = document.getElementById("canvas").getContext("2d");
+          var i = 0;
+          var j = 0;
+          setInterval(function() {
+            if (j == num - 1) {
+              i++;
+              j = 0;
+            }
+            if (i == num - 1) {
+              bubbleFlag = true;
+              console.log("exited out of bubble sort");
+              clearInterval();
+            }
+            if (rects[j].height > rects[j + 1].height) {
+              console.log(
+                "Swapped " + rects[j].height + " with " + rects[j + 1].height
+              );
+              var c = rects[j].color;
+              rects[j].color = rects[j + 1].color;
+              rects[j + 1].color = c;
+              var y = rects[j].height;
+              rects[j].height = rects[j + 1].height;
+              rects[j + 1].height = y;
+              rects[j].yPos = 500 - rects[j].height;
+              rects[j + 1].yPos = 500 - rects[j + 1].height;
+              document.getElementById("lol").innerHTML = i;
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, 1000, 500);
+              for (var k = 0; k < num; k++) {
+                rects[k].draw();
+              }
+            }
+            j++;
+          }, 1);
+        }
       }
     </script>
   </head>
   <body>
-    <canvas id="canvas" width="1000" height="1000"> </canvas>
-
     <button onclick="bubbleSort()">Bubble Sort</button>
     <button onclick="quickSort()">Quick Sort</button>
+    <input id="num" placeholder="enter num of elements" value="10" />
     <p id="lol"></p>
+    <canvas id="canvas" width="1000" height="500"> </canvas>
   </body>
 </html>
