@@ -3,6 +3,7 @@ var rects = [];
 var bubbleFlag = true;
 var beingSorted = false;
 var sortedRect = [];
+var speed = 100;
 
 class rectangles {
   constructor(xPos, height, ctx, color) {
@@ -45,10 +46,12 @@ function bubbleSort() {
   if (beingSorted == false) {
     beingSorted = true;
     num = document.getElementById("num").value;
-    /*var canvas = document.getElementById("canvas");
-        var canvasHeight = 500;
-        var canvasWidth = 1000;
-        var ctx = canvas.getContext("2d");*/
+    if (num == "") {
+      beingSorted = false;
+      console.log("NUM is NULL\n");
+      return;
+    }
+    console.log("num is " + num);
     var pos = 0;
     for (var i = 0; i < num; i++) {
       rects[i] = new rectangles(
@@ -61,9 +64,6 @@ function bubbleSort() {
       pos += 1000 / num;
     }
 
-    var p = document.getElementById("p");
-
-    //var ctx = document.getElementById("canvas").getContext("2d");
     var i = 0;
     var j = 0;
     var interval = setInterval(function() {
@@ -75,6 +75,7 @@ function bubbleSort() {
         beingSorted = false;
         console.log("exited out of bubble sort");
         clearInterval(interval);
+        return;
       }
       if (rects[j].height > rects[j + 1].height) {
         var c = rects[j].color;
@@ -92,7 +93,7 @@ function bubbleSort() {
         }
       }
       j++;
-    }, 30);
+    }, speed);
   }
   console.log("exited successfully out of bubble sort");
 }
@@ -102,10 +103,12 @@ function selectionSort() {
   }
   beingSorted = true;
   num = document.getElementById("num").value;
-  /*var canvas = document.getElementById("canvas");
-      var canvasHeight = 500;
-      var canvasWidth = 1000;
-      var ctx = canvas.getContext("2d");*/
+  if (num == "") {
+    console.log("NUM is NULL\n");
+    beingSorted = false;
+    return;
+  }
+  console.log("num is " + num);
   var pos = 0;
   for (var i = 0; i < num; i++) {
     rects[i] = new rectangles(
@@ -118,9 +121,6 @@ function selectionSort() {
     pos += 1000 / num;
   }
 
-  var p = document.getElementById("p");
-
-  //ar ctx = document.getElementById("canvas").getContext("2d");
   var i = 0;
   var min = 2000;
   console.log("selection sort running");
@@ -154,6 +154,6 @@ function selectionSort() {
       clearInterval(interval);
       i = 0;
     }
-  }, 30);
+  }, speed);
   console.log("exited finally out of selection");
 }
