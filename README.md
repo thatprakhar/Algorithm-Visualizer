@@ -1,4 +1,4 @@
-# BoilerMake : Algorithm Visualizer
+# sortthis.space : Algorithm Visualizer
 
 ## Inspiration
 Many students have a clear lack of understanding on how algorithms work
