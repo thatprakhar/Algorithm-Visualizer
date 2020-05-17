@@ -42,6 +42,12 @@ document.addEventListener("DOMContentLoaded", function() {
   ctx = canvas.getContext("2d");
 });
 
+function updateVal() {
+  document.getElementById("num-val").innerHTML = document.getElementById(
+    "num"
+  ).value;
+}
+
 function bubbleSort() {
   if (beingSorted == false) {
     beingSorted = true;
@@ -86,7 +92,7 @@ function bubbleSort() {
         rects[j + 1].height = y;
         rects[j].yPos = 500 - rects[j].height;
         rects[j + 1].yPos = 500 - rects[j + 1].height;
-        ctx.fillStyle = "#f7cac9";
+        ctx.fillStyle = "#333333";
         ctx.fillRect(0, 0, 1000, 500);
         for (var k = 0; k < num; k++) {
           rects[k].draw();
@@ -142,7 +148,7 @@ function selectionSort() {
     rects[min_index].height = y;
     rects[i].yPos = 500 - rects[i].height;
     rects[min_index].yPos = 500 - rects[min_index].height;
-    ctx.fillStyle = "#f7cac9";
+    ctx.fillStyle = "#333333";
     ctx.fillRect(0, 0, 1000, 500);
     for (var k = 0; k < num; k++) {
       rects[k].draw();

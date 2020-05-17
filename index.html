@@ -3,22 +3,33 @@
 <head>
   <link rel="stylesheet" href="style.css" type="text/css">
   <script src="app.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 </head>
 
 <body>
   <div class="app">
     <nav>
-      <button onclick="bubbleSort()" class="button bouncy">
-        Bubble Sort
-      </button>
-      <button onclick="selectionSort()" class="button bouncy">
-        Selection Sort
-      </button>
-      <input id="num" type="number" min="1" max="1000" placeholder="enter num of elements" required />
+      <header>
+        <h3>Algorithm Visualizer</h3>
+      </header>
+      <div id="options">
+        <button onclick="bubbleSort()" class="btn btn-info">
+          Bubble Sort
+        </button>
+        <button onclick="selectionSort()" class="btn btn-info">
+          Selection Sort
+        </button>
+        <input id="num" type="range" min="100" max="500" placeholder="enter num of elements" default="250"
+          onchange="updateVal()" required />
+      </div>
     </nav>
 
-    <main>
-      <canvas id="canvas" width="1000" height="500"> </canvas>
+    <div id="main">
+      <p id="num-val">250</p>
+      <canvas id="canvas" width="1000" height="500">
+    </div>
     </main>
   </div>
 
