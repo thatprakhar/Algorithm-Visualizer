@@ -163,3 +163,63 @@ function selectionSort() {
   }, speed);
   console.log("exited finally out of selection");
 }
+
+function insertionSort() {
+  if (beingSorted == true) {
+    return;
+  }
+  beingSorted = true;
+  num = document.getElementById("num").value;
+  if (num == "") {
+    console.log("NUM is NULL\n");
+    beingSorted = false;
+    return;
+  }
+  console.log("num is " + num);
+  var pos = 0;
+  for (var i = 0; i < num; i++) {
+    rects[i] = new rectangles(
+      pos,
+      Math.floor(Math.random() * 500),
+      ctx,
+      getRandomColor()
+    );
+    rects[i].draw();
+    pos += 1000 / num;
+  }
+
+  var i = 0;
+  var min = 2000;
+  console.log("insertion sort running");
+  var interval = setInterval(function() {
+    var min_index = i;
+
+    var j = i;
+
+    while (j - 1 >= 0 && rects[j].height < rects[j - 1].height) {
+      // keep swapping
+      var c = rects[j].color;
+      rects[j].color = rects[j - 1].color;
+      rects[j - 1].color = c;
+      var y = rects[j].height;
+      rects[j].height = rects[j - 1].height;
+      rects[j - 1].height = y;
+      rects[j].yPos = 500 - rects[j].height;
+      rects[j - 1].yPos = 500 - rects[j - 1].height;
+      ctx.fillStyle = "#333333";
+      ctx.fillRect(0, 0, 1000, 500);
+      for (var k = 0; k < num; k++) {
+        rects[k].draw();
+      }
+      j--;
+    }
+    i++;
+    if (i >= num) {
+      console.log("exited out of insertion sort");
+      beingSorted = false;
+      clearInterval(interval);
+      i = 0;
+    }
+  }, speed);
+  console.log("exited finally out of insertion");
+}
