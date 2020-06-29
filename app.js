@@ -3,7 +3,7 @@ var rects = [];
 
 var beingSorted = false;
 var speed = 25;
-
+console.log("Speed = " + speed);
 class rectangles {
   constructor(xPos, height, ctx, color) {
     this.xPos = xPos;
