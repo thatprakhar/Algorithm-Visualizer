@@ -24,13 +24,16 @@
         <button onclick="insertionSort()" class="btn btn-info">
           Insertion Sort
         </button>
-        <input id="num" type="range" min="100" max="500" placeholder="enter num of elements" default="250"
+        <!--<button onclick="mergeSort()" class="btn btn-info">
+          Merge Sort
+        </button>-->
+        <input id="num" type="range" min="5" max="500" placeholder="enter num of elements" default="250"
           onchange="updateVal()" required />
+        <p id="num-val"> 250</p>
       </div>
     </nav>
 
     <div id="main">
-      <p id="num-val">250</p>
       <canvas id="canvas" width="1000" height="500">
     </div>
     </main>
