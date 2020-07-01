@@ -11,7 +11,6 @@ class rectangles {
     this.width = 1000 / num;
     this.yPos = 500 - height;
     this.ctx = ctx;
-
     this.color = color;
   }
   draw() {
